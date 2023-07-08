@@ -58,7 +58,7 @@ describe('Issue create', () => {
     });
   });
   // Assignment 2  Task 1
-  it('Should create a BUG issue and validate it successfully ', () => {
+  it.only('Should create a BUG issue and validate it successfully ', () => {
     cy.get('[data-testid="modal:issue-create"]').within(() => {
       cy.get('[data-testid="select:type"]').click();
       cy.get('[data-testid="select-option:Bug"]')
@@ -67,10 +67,10 @@ describe('Issue create', () => {
       cy.get('[data-testid="form-field:title"]').type('Bug');
       cy.get('[data-testid="form-field:reporterId"]').click();
       cy.get('[data-testid="select-option:Pickle Rick"]').click();
-      cy.get('[data-testid="icon:arrow-up"]').click();
+      cy.get('[data-testid="select:priority"]').click();
+      cy.get('[data-testid="select-option:Highest"]').click();
       cy.get('button[type="submit"]').click();
-      cy.wait(2000)
-    });
+      });
     cy.get('[data-testid="modal:issue-create"]').should('not.exist');
     cy.contains('Issue has been successfully created.').should('be.visible');
     cy.reload();
@@ -89,7 +89,7 @@ describe('Issue create', () => {
 
 
 // Assignment 2  Task 2
-it('Should create a task and validate it successfully ', () => {
+it.only('Should create a TASK and validate it successfully ', () => {
   cy.get('[data-testid="modal:issue-create"]').within(() => {
     cy.get('[data-testid="select:type"]').click();
     cy.get('[data-testid="icon:close"]').trigger('click');
