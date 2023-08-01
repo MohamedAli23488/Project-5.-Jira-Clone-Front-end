@@ -1,8 +1,3 @@
-const Reporter = '[data-testid="select:reporterId"]';
-const description = 'This is my time track'
-const title = 'Timetrack';
-const Success = 'Issue has been successfully created.';
-const Submit = 'button[type="submit"]';
 function NewIssue() {
     cy.get('[data-testid="icon:plus"]').click();
     cy.get('input[name="title"]').type('Mohamed');
