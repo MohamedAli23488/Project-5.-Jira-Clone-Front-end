@@ -124,8 +124,8 @@ it('Should validate title is required field if missing', () => {
     //Try to click create issue button without filling any data
     cy.get('button[type="submit"]').click();
 
-    //Assert that correct error message is visible
-    cy.get('[data-testid="form-field:title"]').should('contain', 'This field is required');
+      //Assert that correct error message is visible
+      cy.get('[data-testid="form-field:title"]').should('contain', 'This field is required');
+    });
   });
 });
-})
