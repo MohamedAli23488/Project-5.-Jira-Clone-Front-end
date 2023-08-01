@@ -129,4 +129,3 @@ it('Should validate title is required field if missing', () => {
   });
 });
 })
-
