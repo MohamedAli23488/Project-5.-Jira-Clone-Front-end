@@ -22,119 +22,79 @@ describe('issue-time-tracking', () => {
             NewIssue()
         });
     });
+    const ORIGINALESTIMATEFIELD = () => cy.get('input[placeholder="Number"]').eq(0)
+    const ClosePage = () => cy.get('[data-testid="icon:close"]').first().click();
+    const BoardListBacklog = () => cy.get('[data-testid="board-list:backlog').should('be.visible')
+    const FirstIssuePopUp = () => cy.get('[data-testid="list-issue"]').first().find('p').click();
+    const IssueDetailView = () => cy.get('[data-testid="modal:issue-details"]').should('be.visible');
+    const TimeSpentField = () => cy.get('input[placeholder="Number"]').eq(1)
+    const TimeRemainingField = () => cy.get('input[placeholder="Number"]').eq(2)
+    const TimeTrackingModal = () => cy.get('[data-testid="modal:tracking"]')
 
     it('ADD Update and Removing Estimated Time', () => {
         // Adding Estimated Time
         cy.contains('No time logged').should('be.visible')
-        cy.get('input[placeholder="Number"]')
-            //.eq(0)
-            .type('10');
+        ORIGINALESTIMATEFIELD().type('10');
         cy.contains('10h estimated').should('be.visible');
-        cy.get('[data-testid="icon:close"]')
-            .first()
-            .click();
-        cy.get('[data-testid="board-list:backlog').should('be.visible')
-        cy.get('[data-testid="list-issue"]')
-            .first()
-            .find('p')
-            .click();
-        cy.get('[data-testid="modal:issue-details"]').should('be.visible');
-        cy.get('input[placeholder="Number"]')
-            .eq(0)
-            .should('have.value', '10');
+        ClosePage()
+        BoardListBacklog()
+        FirstIssuePopUp()
+        IssueDetailView()
+        ORIGINALESTIMATEFIELD().should('have.value', '10');
         cy.contains('10h estimated').should('be.visible')
         // Updating Estimated Time
-        cy.get('input[placeholder="Number"]')
-            //.eq(0)
-            .clear()
-            .type('20')
-            .should('have.value', '20');
+        ORIGINALESTIMATEFIELD().clear().type('20').should('have.value', '20');
         cy.contains('20h estimated').should('be.visible');
-        cy.get('[data-testid="icon:close"]')
-            .first()
-            .click()
-        cy.get('[data-testid="board-list:backlog').should('be.visible')
-        cy.get('[data-testid="list-issue"]')
-            .first()
-            .find('p')
-            .click();
-        cy.get('[data-testid="modal:issue-details"]').should('be.visible');
-        cy.get('input[placeholder="Number"]')
-            .eq(0)
-            .should('have.value', '20');
+        ClosePage()
+        BoardListBacklog()
+        FirstIssuePopUp()
+        IssueDetailView()
+        ORIGINALESTIMATEFIELD().should('have.value', '20');
         cy.contains('20h estimated').should('be.visible');
         // Removing Estimated Time
-        cy.get('input[placeholder="Number"]')
-            .eq(0)
-            .clear()
-            .should('have.value', '');
-        cy.get('[data-testid="icon:close"]')
-            .first()
-            .click()
-        cy.get('[data-testid="board-list:backlog').should('be.visible')
-        cy.get('[data-testid="list-issue"]')
-            .first()
-            .find('p')
-            .click();
-        cy.get('[data-testid="modal:issue-details"]').should('be.visible');
-        cy.get('input[placeholder="Number"]')
-            .eq(0)
-            .should('have.value', '')
-            .should('be.visible');
+        ORIGINALESTIMATEFIELD().clear().should('have.value', '');
+        ClosePage()
+        BoardListBacklog()
+        FirstIssuePopUp()
+        IssueDetailView()
+        ORIGINALESTIMATEFIELD().should('have.value', '').should('be.visible');
         cy.contains('No time logged').should('be.visible');
     });
     it('Log time and removing logged time', () => {
+
         // Loggin Time
-        cy.get('input[placeholder="Number"]')
-            //.eq(0)
-            .type('7');
+
+        ORIGINALESTIMATEFIELD().type('7');
         cy.get('[data-testid="icon:stopwatch"]').click();
-        cy.get('[data-testid="modal:tracking"]').should('be.visible');
-        cy.get('input[placeholder="Number"]')
-            .eq(1)
-            .type('2');
-        cy.get('input[placeholder="Number"]')
-            .eq(2)
-            .type('5');
-        cy.contains('button', 'Done')
-            .click();
-        cy.get('[data-testid="modal:tracking"]').should('not.exist');
+        TimeTrackingModal().should('be.visible');
+        TimeSpentField().type('2');
+        TimeRemainingField().type('5');
+        cy.contains('button', 'Done').click();
+        TimeTrackingModal().should('not.exist');
         cy.contains('2h logged').should('be.visible');
         cy.contains('No time logged').should('not.exist');
         cy.contains('5h remaining').should('be.visible')
-        cy.get('[data-testid="icon:close"]')
-            .first()
-            .click()
-        cy.get('[data-testid="board-list:backlog').should('be.visible')
-        cy.get('[data-testid="list-issue"]')
-            .first()
-            .find('p')
-            .click();
+        ClosePage()
+        BoardListBacklog()
+        FirstIssuePopUp()
         cy.contains('2h logged').should('be.visible');
         cy.contains('No time logged').should('not.exist');
         cy.contains('5h remaining').should('be.visible');
+
         // Removing Logged Time
+
+        ORIGINALESTIMATEFIELD().clear();
         cy.get('[data-testid="icon:stopwatch"]').click();
-        cy.get('[data-testid="modal:tracking"]').should('be.visible');
-        cy.get('input[placeholder="Number"]')
-            .eq(1)
-            .clear();
-        cy.get('input[placeholder="Number"]')
-            .eq(2)
-            .clear();
-        cy.contains('button', 'Done')
-            .click();
+        TimeTrackingModal().should('be.visible');
+        TimeSpentField().clear();
+        TimeRemainingField().clear();
+        cy.contains('button', 'Done').click();
         cy.contains('2h logged').should('not.exist');
         cy.contains('5h remaining').should('not.exist');
         cy.contains('No time logged').should('be.visible');
-        cy.get('[data-testid="icon:close"]')
-            .first()
-            .click()
-        cy.get('[data-testid="board-list:backlog').should('be.visible')
-        cy.get('[data-testid="list-issue"]')
-            .first()
-            .find('p')
-            .click();
+        ClosePage()
+        BoardListBacklog()
+        FirstIssuePopUp()
         cy.contains('2h logged').should('not.exist');
         cy.contains('5h remaining').should('not.exist');
         cy.contains('No time logged').should('be.visible');

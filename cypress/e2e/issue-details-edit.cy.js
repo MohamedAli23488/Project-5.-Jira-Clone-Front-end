@@ -11,8 +11,8 @@ describe('Issue details editing', () => {
     getIssueDetailsModal().within(() => {
       cy.get('[data-testid="select:type"]').click('bottomRight');
       cy.get('[data-testid="select-option:Story"]')
-          .trigger('mouseover')
-          .trigger('click');
+        .trigger('mouseover')
+        .trigger('click');
       cy.get('[data-testid="select:type"]').should('contain', 'Story');
 
       cy.get('[data-testid="select:status"]').click('bottomRight');
@@ -60,6 +60,73 @@ describe('Issue details editing', () => {
       cy.get('.ql-snow').should('have.text', description);
     });
   });
-
   const getIssueDetailsModal = () => cy.get('[data-testid="modal:issue-details"]');
-});
+
+  // ASSIGNMENT 3: SOLVE JAVASCRIPT TASKS (BONUS) 
+  // Task 1
+  it.only('Checking PRIORITY Dropdown List and  validates values in issue priorities', () => {
+    const expectedLength = 5;
+    const PriorityList = [];
+    const Priorities = '.sc-cpmLhU.bAPjBE'
+    const PrioritySelector = '[data-testid="select:priority"]'
+
+    cy.get(PrioritySelector).contains('High')
+      .invoke("text").then((text) => {
+        PriorityList.push(text.trim());
+        cy.log(PriorityList);
+        cy.get(PrioritySelector)
+          .click()
+          .next()
+          .find(Priorities)
+          .each((priority) => {
+            cy.wrap(priority)
+              .invoke('text')
+              .then((text) => {
+                PriorityList.push(text.trim());
+              });
+          })
+          .then(() => {
+            cy.log('Added values to PriorityList:', PriorityList);
+            cy.log('Length of PriorityList:', PriorityList.length);
+            cy.log(PriorityList.length === expectedLength)
+          })
+      });
+  })
+
+  // ASSIGNMENT 3: SOLVE JAVASCRIPT TASKS (BONUS)
+  // Task 2
+  it.only('checking that reporter name has only characters in it and ', () => {
+    const ReporterList = [];
+    const ReporterSelector = '[data-testid="select:reporter"]'
+    const Reporters = '.sc-eerKOB.bIUyqH'
+    const Regex = /^[A-Za-z ]+$/;
+
+    cy.get(ReporterSelector).contains('Baby Yoda')
+      .invoke("text").then((text) => {
+        ReporterList.push(text.trim());
+        cy.log(ReporterList);
+        cy.get(ReporterSelector)
+          .click()
+          .next()
+          .find(Reporters)
+          .each((Reporter) => {
+            cy.wrap(Reporter)
+              .invoke('text')
+              .then((text) => {
+                ReporterList.push(text.trim());
+              });
+          })
+          .then(() => {
+            cy.log(ReporterList)
+            ReporterList.forEach((ReporterName) => {
+              cy.wrap(ReporterName).should('match', Regex)
+            });
+          })
+      });
+  })
+})
+
+
+
+
+
