@@ -57,7 +57,7 @@ describe('Issue comments creating, editing and deleting', () => {
 
     });
     const Comments = '[data-testid="issue-comment"]'
-    it.only('Should cancel Deleting a comment', () => {
+    it('Should cancel Deleting a comment', () => {
         getIssueDetailsModal()
             .find(Comments)
             .contains('Delete')
