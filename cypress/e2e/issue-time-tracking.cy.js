@@ -1,4 +1,4 @@
-import Selectors,{NewIssue,variables} from "../pages/New issue and selectors";
+import Selectors, { NewIssue, variables, validateEstimatedtime, editingEstimatedTime, validateEditedEstimatedTime } from "../pages/New issue and selectors";
 
 describe('issue-time-tracking', () => {
     beforeEach(() => {
@@ -8,27 +8,28 @@ describe('issue-time-tracking', () => {
             NewIssue()
         });
     });
-    
+
     it('ADD Update and Removing Estimated Time', () => {
         // Adding Estimated Time
         cy.contains('No time logged').should('be.visible')
         Selectors.ORIGINALESTIMATEFIELD().type(variables.estimatedtime);
-        cy.contains(`${variables.estimatedtime}${variables.estimatedHoursText}`).should('be.visible');
+        validateEstimatedtime();
         Selectors.ClosePage()
         Selectors.BoardListBacklog()
         Selectors.FirstIssuePopUp()
         Selectors.IssueDetailView()
         Selectors.ORIGINALESTIMATEFIELD().should('have.value', variables.estimatedtime);
-        cy.contains(`${variables.estimatedtime}${variables.estimatedHoursText}`).should('be.visible')
+        validateEstimatedtime();
         // Updating Estimated Time
-        Selectors.ORIGINALESTIMATEFIELD().clear().type(variables.editedEstimatedtime).should('have.value', variables.editedEstimatedtime);
-        cy.contains(`${variables.editedEstimatedtime}${variables.estimatedHoursText}`).should('be.visible');
+        editingEstimatedTime();
+        validateEditedEstimatedTime()
         Selectors.ClosePage()
         Selectors.BoardListBacklog()
         Selectors.FirstIssuePopUp()
         Selectors.IssueDetailView()
         Selectors.ORIGINALESTIMATEFIELD().should('have.value', variables.editedEstimatedtime);
-        cy.contains(`${variables.editedEstimatedtime}${variables.estimatedHoursText}`).should('be.visible');
+        validateEditedEstimatedTime()
+
         // Removing Estimated Time
         Selectors.ORIGINALESTIMATEFIELD().clear().should('have.value', '');
         Selectors.ClosePage()

@@ -39,3 +39,14 @@ export const variables = {
     estimatedHoursText: 'h estimated',
     editedEstimatedtime: 20,
 };
+export function validateEstimatedtime () {
+    cy.contains(`${variables.estimatedtime}${variables.estimatedHoursText}`).should('be.visible')
+};
+export function editingEstimatedTime(){
+    ORIGINALESTIMATEFIELD().clear().type(variables.editedEstimatedtime).should('have.value', variables.editedEstimatedtime);
+
+}
+export function validateEditedEstimatedTime(){
+    cy.contains(`${variables.editedEstimatedtime}${variables.estimatedHoursText}`).should('be.visible');
+
+}
